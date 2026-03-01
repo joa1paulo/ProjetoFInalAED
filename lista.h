@@ -24,5 +24,14 @@ o nome do prato e os ingredientes,assim como o preço do prato a função irá c
 nó com essas informações e adicioná-lo à lista.
 /*/
 
+void removerReceita(Lista* lista, char* nome);
+void listarReceitas(Lista* lista);
+void listarReceitasPorIngrediente(Lista* lista, char* ingrediente);
+void cadastrarIngredienteReceita(Lista* lista, char* nomePrato);
+void listarIngredientesReceita(Lista* lista, char* nomePrato);
+void MenorPreco(Lista* lista);
+void IngredienteMaisUsado(Lista* lista);
+void IngredientesEmComum(Lista* lista);
+
 
 #endif

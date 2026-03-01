@@ -1,0 +1,24 @@
+Tema 4 – Receitas Culinárias Saudáveis
+
+Estrutura de dados:
+
+Lista duplamente ligada de Receitas
+Cada receita possui uma lista duplamente ligada de Ingredientes Saudáveis
+Funções básicas:
+
+Cadastrar receita
+Remover receita
+Listar receitas
+Cadastrar ingrediente em uma receita
+Listar ingredientes de uma receita
+Funções extras (exemplos):
+
+Contar ingredientes por receita
+Listar receitas por tipo (vegana, vegetariana, sem açúcar, etc.)
+Calcular valor calórico total da receita
+Cruzamento de dados (exemplos):
+
+Identificar ingredientes utilizados em mais de uma receita
+Listar receitas que utilizam um determinado ingrediente
+Encontrar a receita com menor valor calórico
+Calcular o ingrediente mais utilizado entre todas as receitas

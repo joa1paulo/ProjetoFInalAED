@@ -40,7 +40,7 @@ void cadastrarReceita(Lista* lista) {
     fgets(novoNo->Nome, 100, stdin); // fgets para nao ter stack overflow
     novoNo->Nome[strcspn(novoNo->Nome, "\n")] = '\0'; // remove '\n' se houver
 
-    printf("\n Digite o preço do prato: \n");
+    printf("\n Digite o preco do prato: \n");
     scanf("%f", &novoNo->preco);
 
     printf("\n Digite o numero de ingredientes: \n");

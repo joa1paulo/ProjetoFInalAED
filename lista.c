@@ -36,14 +36,14 @@ void cadastrarReceita(Lista* lista) {
 
     int escolha;
 
-    printf("Digite o nome do prato: ");
+    printf("\n Digite o nome do prato: ");
     fgets(novoNo->Nome, 100, stdin); // fgets para nao ter stack overflow
     novoNo->Nome[strcspn(novoNo->Nome, "\n")] = '\0'; // remove '\n' se houver
 
-    printf("Digite o preço do prato: ");
+    printf("\n Digite o preço do prato: \n");
     scanf("%f", &novoNo->preco);
 
-    printf("digite o numero de ingredientes: ");
+    printf("\n Digite o numero de ingredientes: \n");
     scanf("%d", &escolha);
     // consumir o '\n' que ficou no buffer após scanf
     int c;
@@ -93,7 +93,7 @@ void cadastrarIngredienteReceita(Lista* lista, char* nomePrato){
     while(atual != NULL){
         if(strcmp(atual->Nome, nomePrato) == 0){
             char buffer[100];
-            printf("Digite o novo ingrediente: ");
+            printf("\n Digite o novo ingrediente: ");
             fgets(buffer, sizeof(buffer), stdin);
             buffer[strcspn(buffer, "\n")] = '\0';
             Receita* novoIng = (Receita*)malloc(sizeof(Receita));
@@ -123,7 +123,7 @@ void listarIngredientesReceita(Lista* lista, char* nomePrato){
         if(strcmp(atual->Nome, nomePrato) == 0){
             Receita* ingAtual = atual->ingredientes;
             while(ingAtual != NULL){
-                printf("- %s\n", ingAtual->ingrediente);
+                printf("\n - %s\n", ingAtual->ingrediente);
                 ingAtual = ingAtual->proxima;
             }
             return;
@@ -144,7 +144,7 @@ void MenorPreco(Lista* lista){
         }
         atual = atual->proximo;
     }
-    printf("Nome: %s\nPreco: %.2f\n", menorPrato->Nome, menorPrato->preco);
+    printf("\n Nome: %s\nPreco: %.2f\n", menorPrato->Nome, menorPrato->preco);
 }
 
 typedef struct Freq{
@@ -203,7 +203,7 @@ void IngredienteMaisUsado(Lista* lista){
     fAtual = contagem;
     while(fAtual != NULL){
         if(fAtual->contagem == maiorFreq){
-            printf("- %s\n", fAtual->nome);
+            printf("\n - %s\n", fAtual->nome);
         }
         fAtual = fAtual->proximo;
     }
@@ -225,7 +225,7 @@ void IngredientesEmComum(Lista* lista){
     Freq* fAtual = contagem;
     while(fAtual != NULL){
         if(fAtual->contagem > 1){
-            printf("- %s\n", fAtual->nome);
+            printf("\n - %s\n", fAtual->nome);
         }
         fAtual = fAtual->proximo;
     }
@@ -262,22 +262,22 @@ void removerReceita(Lista* lista, char* nome){
 
             free(atual);
             lista->tamanho--;
-            printf("Receita '%s' removida.\n", nome);
+            printf("\n Receita '%s' removida.\n", nome);
             return;
         }
         atual = atual->proximo;
     }
-    printf("Receita '%s' nao encontrada.\n", nome);
+    printf("\n Receita '%s' nao encontrada.\n", nome);
 }
 
 void listarReceitas(Lista* lista){
     if(lista == NULL || lista->inicio == NULL){
-        printf("Nenhuma receita cadastrada.\n");
+        printf("\n Nenhuma receita cadastrada.\n");
         return;
     }
     No* atual = lista->inicio;
     while(atual != NULL){
-        printf("Nome: %s\n", atual->Nome);
+        printf("\n Nome: %s\n", atual->Nome);
         printf("Preco: %.2f\n", atual->preco);
         printf("Ingredientes:\n");
         Receita* ing = atual->ingredientes;

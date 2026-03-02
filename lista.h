@@ -1,6 +1,6 @@
 #ifndef LISTA_H
 #define LISTA_H
-#include "pratos.h"
+#include "ingredientes.h"
 
 typedef struct No {
     char Nome[100];         

@@ -227,3 +227,82 @@ void IngredientesEmComum(Lista* lista){
     }
     liberarFreq(contagem);
 }
+
+void liberarIngredientes(Receita* head){
+    Receita* atual = head;
+    while(atual != NULL){
+        Receita* temp = atual;
+        atual = atual->proxima;
+        free(temp->ingrediente);
+        free(temp);
+    }
+}
+
+void removerReceita(Lista* lista, char* nome){
+    if(lista == NULL || lista->inicio == NULL) return;
+    No* atual = lista->inicio;
+    while(atual != NULL){
+        if(strcmp(atual->Nome, nome) == 0){
+            // unlink
+            if(atual->anterior != NULL)
+                atual->anterior->proximo = atual->proximo;
+            else
+                lista->inicio = atual->proximo;
+
+            if(atual->proximo != NULL)
+                atual->proximo->anterior = atual->anterior;
+
+            // liberar ingredientes
+            if(atual->ingredientes != NULL)
+                liberarIngredientes(atual->ingredientes);
+
+            free(atual);
+            lista->tamanho--;
+            printf("Receita '%s' removida.\n", nome);
+            return;
+        }
+        atual = atual->proximo;
+    }
+    printf("Receita '%s' nao encontrada.\n", nome);
+}
+
+void listarReceitas(Lista* lista){
+    if(lista == NULL || lista->inicio == NULL){
+        printf("Nenhuma receita cadastrada.\n");
+        return;
+    }
+    No* atual = lista->inicio;
+    while(atual != NULL){
+        printf("Nome: %s\n", atual->Nome);
+        printf("Preco: %.2f\n", atual->preco);
+        printf("Ingredientes:\n");
+        Receita* ing = atual->ingredientes;
+        while(ing != NULL){
+            printf(" - %s\n", ing->ingrediente);
+            ing = ing->proxima;
+        }
+        printf("---\n");
+        atual = atual->proximo;
+    }
+}
+
+void listarReceitasPorIngrediente(Lista* lista, char* ingrediente){
+    if(lista == NULL || lista->inicio == NULL) return;
+    No* atual = lista->inicio;
+    int found = 0;
+    while(atual != NULL){
+        Receita* ing = atual->ingredientes;
+        while(ing != NULL){
+            if(strcmp(ing->ingrediente, ingrediente) == 0){
+                printf("%s (%.2f)\n", atual->Nome, atual->preco);
+                found = 1;
+                break;
+            }
+            ing = ing->proxima;
+        }
+        atual = atual->proximo;
+    }
+    if(!found){
+        printf("Nenhuma receita encontrada com o ingrediente '%s'.\n", ingrediente);
+    }
+}

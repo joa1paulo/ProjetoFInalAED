@@ -8,7 +8,7 @@ int main(){
     char buffer[100];
     while(opcao != 10){
         exibirMenu();
-        printf("Escolha uma opcao: ");
+        printf("\nEscolha uma opcao: ");
         scanf("%d", &opcao);
         int c;
         while((c = getchar()) != '\n' && c != EOF);// limpar o buffer de entrada após scanf

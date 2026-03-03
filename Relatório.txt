@@ -53,16 +53,51 @@ lista de ingredientes na lista inicial No está vazia
 então o No criado, após receber nome, preço e ingredientes, é adicionado no inicio da lista de receitas, 
 substituindo o ponteiro do inicio da lista para o novo nó criado.
 
-4. cadastrarIngredienteReceita(Lista* lista, char* nomePrato)
+4. cadastraringredientereceita(Lista lista, char nomeprato) é responsável por adicionar um ingrediente novo em uma receita que já está salva.
+inicialmente ela verifica se a lista não é nula e se tem pelo menos uma receita cadastrada. em seguida, faz uma busca sequencial na lista duplamente ligada comparando o nome da receita usando strcmp.
+quando a receita correspondente é encontrada, pede ao usuário para inserir o novo ingrediente:
+- o valor é lido com fgets e o \n é removido
+- é criado um novo nó dinamicamente para a lista simples de ingredientes
+- a string do ingrediente é alocada com strdup para segurança na memória
+então há uma verificação para ver se a lista de ingredientes daquela receita está vazia:
+- se vazia, o novo nó passa a ser o primeiro elemento da lista
+- se não vazia, o novo ingrediente é inserido no final da lista, preservando a ordem que foi digitada.
+a função encerra logo após inserir o ingrediente na receita.
 
-5. listarIngredientesReceita(Lista* lista, char* nomePrato)
+5. listaringredientesreceita(Lista lista, char nomeprato) tem como objetivo listar todos os ingredientes de uma receita específica.
+primeiramente ela verifica se a lista existe e se contém elementos. depois, faz uma busca sequencial na lista de receitas até achar o nome informado.
+ao localizar a receita:
+- inicia um ponteiro auxiliar para percorrer a lista simples de ingredientes
+- percorre a lista imprimindo cada ingrediente na tela até o ponteiro atingir null
+a função retorna logo após exibir tudo. caso não ache a receita, ela simplesmente finaliza sem imprimir mais nada.
 
-6. MenorPreco()
+6. menorpreco(Lista lista) percorre toda a lista de receitas para identificar qual possui o menor preço.
+inicialmente ela verifica se a lista é válida e define o primeiro nó como a referência inicial de menor preço.
+em seguida ela entra em um loop:
+- percorre a lista de receitas inteira
+- a cada iteração, compara o preço atual com o menor valor salvo
+- caso o preço seja menor, atualiza o ponteiro da receita mais barata e a variável do menor preço
+ao final da varredura, imprime o nome da receita e o valor formatado com duas casas decimais. a complexidade é o(n), pois percorre a lista inteira apenas uma vez.
 
-7. Estrutura de frequencia e liberação.
+7. estrutura de frequência e liberação (freq, registraringrediente e liberarfreq) são usadas para mapear quantas vezes cada ingrediente aparece no geral.
+a estrutura freq contém:
+- nome do ingrediente
+- contagem de quantas vezes ele aparece
+- ponteiro para o próximo elemento da lista
+a função registraringrediente faz o seguinte:
+- percorre a lista de frequência para ver se o ingrediente já existe
+- se encontrado, incrementa o contador
+- se não existir, cria um novo nó com contagem 1 e insere no início da lista para melhorar o desempenho.
+já a função liberarfreq serve para limpar a memória. ela percorre a lista inteira dando free em cada nó, evitando vazamentos.
 
-8. registrarIngrediente(Freq** listaFreq, char* nomeIngrediente)
-
+8. registraringrediente(freq** listafreq, char* nomeingrediente) é o núcleo do sistema de contagem de frequência.
+ela recebe o ponteiro duplo da lista e o nome do ingrediente a ser contabilizado.
+o funcionamento ocorre em etapas:
+- percorre a lista de frequência existente
+- compara os nomes usando strcmp
+- se o ingrediente já estiver lá, incrementa a contagem e encerra
+caso não encontre, ela aloca um nó novo, define a contagem como 1 e insere esse nó no início da lista.
+o ponteiro duplo serve para conseguir modificar diretamente o início da lista. essa estrutura é o que permite fazer funções como ingredientemaisusado e ingredientesemcomum.
 9. IngredienteMaisUsado(Lista* lista)
 
 10. IngredientesEmComum(Lista* lista)

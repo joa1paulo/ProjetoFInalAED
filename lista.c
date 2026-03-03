@@ -5,7 +5,9 @@
 #include <string.h>
 
 void exibirMenu() {
-    printf("----------------Menu----------------:\n");
+    printf("\n\n");
+    printf("----------------Menu----------------\n");    
+    printf("\n\n");
     printf("1. Cadastrar Receita\n");
     printf("2. Remover Receita\n");
     printf("3. Listar Receitas\n");
@@ -15,8 +17,8 @@ void exibirMenu() {
     printf("7. Encontrar Prato com Menor Preço\n");
     printf("8. Encontrar Ingrediente Mais Usado\n");
     printf("9. Encontrar Ingredientes em Comum entre Receitas\n");
-    printf("10. Sair\n");
-    printf("\n\n\n-----------------------------------------");
+    printf("10. Sair");
+    printf("\n\n-----------------------------------------");
 }
 
 Lista* criarLista() {

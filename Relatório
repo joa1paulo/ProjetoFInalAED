@@ -1,0 +1,76 @@
+O tema escolhido para o projeto foi o tema 4, o mesmo com as seguintes exigencias e/ou sugestões:
+Tema 4 – Receitas Culinárias Saudáveis
+
+Estrutura de dados:
+Lista duplamente ligada de Receitas
+Cada receita possui uma lista duplamente ligada de Ingredientes Saudáveis
+
+Funções básicas:
+Cadastrar receita (Feito)
+Remover receita (Feito)
+Listar receitas (Feito)
+Cadastrar ingrediente em uma receita (Feito)
+Listar ingredientes de uma receita (Feito)
+
+Funções extras (exemplos):
+Contar ingredientes por receita (Feito)
+Listar receitas por tipo (vegana, vegetariana, sem açúcar, etc.) (Não Feito)
+Calcular valor calórico total da receita (Não Feito)
+
+Cruzamento de dados (exemplos):
+Identificar ingredientes utilizados em mais de uma receita (Feito)
+Listar receitas que utilizam um determinado ingrediente (Feito)
+Encontrar a receita com menor valor calórico (Feito, mas com o menor preço, pois o valor calórico não foi implementado)
+Calcular o ingrediente mais utilizado entre todas as receitas (Feito)
+
+
+Toda a lógica do projeto gira em torno da manipulação de duas listas:
+- A Lista No em lista.h , que é uma lista duplamente ligada, que salva nome, preço e ingredientes de cada receita.
+- A Lista Receita em ingrediente.h , que é uma lista encadeada simples , que salva os ingredientes de forma linear.
+Apartir da criaçãoo dessas duas listas, foi possivel implementar as funções exigidas, com controle sobre as informações
+de cada receita.
+
+Detalhamento das funções implementadas:
+
+1. As funções do Menu interativo são bem simple, somente loops e switch case para controlar as opções do 
+usuário, chamando as funções correspondentes para cada ação. Ao mesmo tempo que exibirMenu() somente possui varios printf em
+sequencia, para mostrar as opções disponíveis para o usuário.
+
+2. CriaLista() é uma função que aloca um ponteiro para a estrutura do No principal, depois de alocar memória.
+
+3. CadastrarReceita(Lista *l) é praticamente a função mais complexa e importante na implementação.
+Inicialmente ela cria um novo nó e pede ao usuario para inserir:
+- O nome da receita (recebe uma string e tira o \n)
+- O preço da receita (scanf comum)
+- O número de ingredientes que a receita possui (o numero vai controlar o loop que pede ingredientes)
+O loop dos ingredientes recebe a cada iteração o nome do ingrediente
+o nome é guardade em uma varivel buffer, que remove o \n também,
+então é criado uma lista Receita para guardar os ingredientes
+nessa Lista é aplicado o valor de buffer, e então há uma verificação para ver se a 
+lista de ingredientes na lista inicial No está vazia
+- se vazia, aplica o valor da lista de ingredientes criada
+- se não vazia, percorre a lista de ingredientes inteira até o prox = NULL, e copia o valor da Lista.
+então o No criado, após receber nome, preço e ingredientes, é adicionado no inicio da lista de receitas, 
+substituindo o ponteiro do inicio da lista para o novo nó criado.
+
+4. cadastrarIngredienteReceita(Lista* lista, char* nomePrato)
+
+5. listarIngredientesReceita(Lista* lista, char* nomePrato)
+
+6. MenorPreco()
+
+7. Estrutura de frequencia e liberação.
+
+8. registrarIngrediente(Freq** listaFreq, char* nomeIngrediente)
+
+9. IngredienteMaisUsado(Lista* lista)
+
+10. IngredientesEmComum(Lista* lista)
+
+11. liberarIngredientes(Receita* head)
+
+12. removerReceita(Lista* lista, char* nome)
+
+13. listarReceitas(Lista* lista)
+
+14. listarReceitasPorIngrediente(Lista* lista, char* ingrediente)

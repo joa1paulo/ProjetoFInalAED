@@ -126,7 +126,7 @@ caso nao seja encontrado o ingrediente em nenhuma receita, a função if(!found)
 
 EXEMPLO DE USO:
 
-
+o exemplo de uso está no repositório principal com o nome TesteUso.txt
 
 
 

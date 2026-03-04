@@ -98,6 +98,7 @@ o funcionamento ocorre em etapas:
 - se o ingrediente já estiver lá, incrementa a contagem e encerra
 caso não encontre, ela aloca um nó novo, define a contagem como 1 e insere esse nó no início da lista.
 o ponteiro duplo serve para conseguir modificar diretamente o início da lista. essa estrutura é o que permite fazer funções como ingredientemaisusado e ingredientesemcomum.
+
 9. IngredienteMaisUsado(Lista* lista)
 
 10. IngredientesEmComum(Lista* lista)

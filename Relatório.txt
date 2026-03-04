@@ -123,3 +123,13 @@ cria um No secundario para perccorrer toda a lista, mas também inicia um int pa
 igual a função listarReceitas , tem dois loops, o primeiro percorre todas as receitas, e o segundo todoss os ingrediente de cada receita.
 nesse segundo loop, caso algum dos ingredientes for igual ao solicitado, muda found para 1 depois de printar para o usuario qual receita tem tal ingrediente.
 caso nao seja encontrado o ingrediente em nenhuma receita, a função if(!found) verifica se found é 0, se for avisa que não tem nenhuma receita com o ingrediente.
+
+EXEMPLO DE USO:
+
+
+
+
+
+REFLEXÃO E PARENDIZADOS:
+
+O METODO DE IMPLEMENTAÇÃO DE "UMA LISTA DENTRO DA OUTRA" FOI EXTREMAMENTE IMPORTANTE NO ENTENDIMENTO DA LOGICA DE CRUZAMENTO DE DADOS, MANIPULAÇÃO DE LISTAS E PRINCIPALMENTE PROCESSO DE ADICAO, REMOÇÃO E LIBERAÇÃO DE MEMÓRIA. OUTRO PONTO POSITIVO DO TRABALHO FOI O USO DA PLATAFORMA GITHUB PARA A COLABORAÇÃO, ONDE CADA INTEGRANTE FOI INCREMENTANDO ALGO E FAZENDO DO PROJETO CADA VEZ MAIS COMPLETO. O USO DE LISTAS SECUNDARIAS PARA LOGICA DE CRUZAMENTO TAMBÉM FOI UMA "DESCOBERTA" MUITO UTIL PARA O CONHECIMENTO DO GRUPO, ABRINDO PORTAS PARA ALGORITMOS MAIS EFICIENTES NO FUTURO.

@@ -107,5 +107,14 @@ o ponteiro duplo serve para conseguir modificar diretamente o início da lista. 
 12. removerReceita(Lista* lista, char* nome)
 
 13. listarReceitas(Lista* lista)
+Inicialmente analisa se a lista está vazia, caso esteja retorna uma mensagem avisando o usuário, caso contrário vai para a segunda etapa.
+Depois simplesmente cria um No secundario, igual ao da lista do argumento que fica em um loop para percorrer todas as receitas, cada iteração do loop 
+informa: nome da receita, preço e printa cada um dos ingredientes, que está numa lista que é percorrida até prox = NULL. terminado uma receita, troca o No para prox e reinicia o loop.
+
 
 14. listarReceitasPorIngrediente(Lista* lista, char* ingrediente)
+Esta função tambem verifica a lista vazia.
+cria um No secundario para perccorrer toda a lista, mas também inicia um int para falar se o ingrediente foi encontrado ou não.
+igual a função listarReceitas , tem dois loops, o primeiro percorre todas as receitas, e o segundo todoss os ingrediente de cada receita.
+nesse segundo loop, caso algum dos ingredientes for igual ao solicitado, muda found para 1 depois de printar para o usuario qual receita tem tal ingrediente.
+caso nao seja encontrado o ingrediente em nenhuma receita, a função if(!found) verifica se found é 0, se for avisa que não tem nenhuma receita com o ingrediente.

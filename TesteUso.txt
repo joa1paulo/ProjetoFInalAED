@@ -1,0 +1,158 @@
+Menu:
+1. Cadastrar Receita
+2. Remover Receita
+3. Listar Receitas
+4. Cadastrar Ingrediente em uma Receita
+5. Listar Ingredientes de uma Receita
+6. Listar Receitas por Ingrediente
+7. Encontrar Prato com Menor Preço
+8. Encontrar Ingrediente Mais Usado
+9. Encontrar Ingredientes em Comum entre Receitas
+10. Sair
+Escolha uma opcao: 1
+Digite o nome do prato: ovo
+Digite o preço do prato: 20
+digite o numero de ingredientes: 2
+Digite o ingrediente 1: ovo
+Digite o ingrediente 2: oleo
+Menu:
+1. Cadastrar Receita
+2. Remover Receita
+3. Listar Receitas
+4. Cadastrar Ingrediente em uma Receita
+5. Listar Ingredientes de uma Receita
+6. Listar Receitas por Ingrediente
+7. Encontrar Prato com Menor Preço
+8. Encontrar Ingrediente Mais Usado
+9. Encontrar Ingredientes em Comum entre Receitas
+10. Sair
+Escolha uma opcao: 1
+Digite o nome do prato: macarrao
+Digite o preço do prato: 50
+digite o numero de ingredientes: 3
+Digite o ingrediente 1: macarrao
+Digite o ingrediente 2: oleo
+Digite o ingrediente 3: sal
+Menu:
+1. Cadastrar Receita
+2. Remover Receita
+3. Listar Receitas
+4. Cadastrar Ingrediente em uma Receita
+5. Listar Ingredientes de uma Receita
+6. Listar Receitas por Ingrediente
+7. Encontrar Prato com Menor Preço
+8. Encontrar Ingrediente Mais Usado
+9. Encontrar Ingredientes em Comum entre Receitas
+10. Sair
+Escolha uma opcao: 3
+Nome: macarrao
+Preco: 50.00
+Ingredientes:
+ - macarrao
+ - oleo
+ - sal
+---
+Nome: ovo
+Preco: 20.00
+Ingredientes:
+ - ovo
+ - oleo
+---
+Menu:
+1. Cadastrar Receita
+2. Remover Receita
+3. Listar Receitas
+4. Cadastrar Ingrediente em uma Receita
+5. Listar Ingredientes de uma Receita
+6. Listar Receitas por Ingrediente
+7. Encontrar Prato com Menor Preço
+8. Encontrar Ingrediente Mais Usado
+9. Encontrar Ingredientes em Comum entre Receitas
+10. Sair
+Escolha uma opcao: 4
+Digite o nome da receita: macarrao
+Digite o novo ingrediente: molho de tomate
+Menu:
+1. Cadastrar Receita
+2. Remover Receita
+3. Listar Receitas
+4. Cadastrar Ingrediente em uma Receita
+5. Listar Ingredientes de uma Receita
+6. Listar Receitas por Ingrediente
+7. Encontrar Prato com Menor Preço
+8. Encontrar Ingrediente Mais Usado
+9. Encontrar Ingredientes em Comum entre Receitas
+10. Sair
+Escolha uma opcao: 5
+Digite o nome da receita: macarrao
+- macarrao
+- oleo
+- sal
+- molho de tomate
+Menu:
+1. Cadastrar Receita
+2. Remover Receita
+3. Listar Receitas
+4. Cadastrar Ingrediente em uma Receita
+5. Listar Ingredientes de uma Receita
+6. Listar Receitas por Ingrediente
+7. Encontrar Prato com Menor Preço
+8. Encontrar Ingrediente Mais Usado
+9. Encontrar Ingredientes em Comum entre Receitas
+10. Sair
+Escolha uma opcao: 6
+Digite o ingrediente: oleo
+macarrao (50.00)
+ovo (20.00)
+Menu:
+1. Cadastrar Receita
+2. Remover Receita
+3. Listar Receitas
+4. Cadastrar Ingrediente em uma Receita
+5. Listar Ingredientes de uma Receita
+6. Listar Receitas por Ingrediente
+7. Encontrar Prato com Menor Preço
+8. Encontrar Ingrediente Mais Usado
+9. Encontrar Ingredientes em Comum entre Receitas
+10. Sair
+Escolha uma opcao: 7
+Nome: ovo
+Preco: 20.00
+Menu:
+1. Cadastrar Receita
+2. Remover Receita
+3. Listar Receitas
+4. Cadastrar Ingrediente em uma Receita
+5. Listar Ingredientes de uma Receita
+6. Listar Receitas por Ingrediente
+7. Encontrar Prato com Menor Preço
+8. Encontrar Ingrediente Mais Usado
+9. Encontrar Ingredientes em Comum entre Receitas
+10. Sair
+Escolha uma opcao: 8
+- oleo
+Menu:
+1. Cadastrar Receita
+2. Remover Receita
+3. Listar Receitas
+4. Cadastrar Ingrediente em uma Receita
+5. Listar Ingredientes de uma Receita
+6. Listar Receitas por Ingrediente
+7. Encontrar Prato com Menor Preço
+8. Encontrar Ingrediente Mais Usado
+9. Encontrar Ingredientes em Comum entre Receitas
+10. Sair
+Escolha uma opcao: 9
+- oleo
+Menu:
+1. Cadastrar Receita
+2. Remover Receita
+3. Listar Receitas
+4. Cadastrar Ingrediente em uma Receita
+5. Listar Ingredientes de uma Receita
+6. Listar Receitas por Ingrediente
+7. Encontrar Prato com Menor Preço
+8. Encontrar Ingrediente Mais Usado
+9. Encontrar Ingredientes em Comum entre Receitas
+10. Sair
+Escolha uma opcao:10

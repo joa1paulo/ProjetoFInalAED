@@ -94,22 +94,22 @@ void cadastrarIngredienteReceita(Lista* lista, char* nomePrato){
     if(lista == NULL || lista->inicio == NULL) return;
     No* atual = lista->inicio;
     while(atual != NULL){
-        if(strcmp(atual->Nome, nomePrato) == 0){
+        if(strcmp(atual->Nome, nomePrato) == 0){ //strcmp devolve 0 se as duas strings forem iguais
             char buffer[100];
             printf("\n Digite o novo ingrediente: ");
             fgets(buffer, sizeof(buffer), stdin);
-            buffer[strcspn(buffer, "\n")] = '\0';
+            buffer[strcspn(buffer, "\n")] = '\0'; // elimina o \n
             
             Receita* novoIng = (Receita*)malloc(sizeof(Receita));
             if(novoIng != NULL){
-                novoIng->ingrediente = strdup(buffer);
+                novoIng->ingrediente = strdup(buffer); //passa a string por alocação dinamica
                 novoIng->proxima = NULL;
                 
-                if(atual->ingredientes == NULL){
+                if(atual->ingredientes == NULL){ //se não tiver nenhum ingrediente adiciona no primeiro
                     atual->ingredientes = novoIng;
                 }else{
                     Receita* p = atual->ingredientes;
-                    while(p->proxima != NULL){
+                    while(p->proxima != NULL){ //se ja tiver ingrediente percorre até o ultimo.
                         p = p->proxima;
                     }
                     p->proxima = novoIng;
@@ -117,7 +117,7 @@ void cadastrarIngredienteReceita(Lista* lista, char* nomePrato){
             }
             break;
         }
-        atual = atual->proximo;
+        atual = atual->proximo; //passa para a proxima receita
     }
 }
 

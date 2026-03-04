@@ -100,12 +100,16 @@ caso não encontre, ela aloca um nó novo, define a contagem como 1 e insere ess
 o ponteiro duplo serve para conseguir modificar diretamente o início da lista. essa estrutura é o que permite fazer funções como ingredientemaisusado e ingredientesemcomum.
 
 9. IngredienteMaisUsado(Lista* lista)
+utiliza a lógica de mapeamento de frequência para determinar qual item aparece mais vezes no sistema. A função cria uma lista de frequência temporária e percorre a lista duplamente ligada de receitas, acessando cada sublista de ingredientes e enviando cada nome para a função de registro. Após processar todos os dados, ela faz uma varredura na lista de frequência para encontrar o maior contador acumulado, exibindo o nome e o total de repetições antes de liberar a memória.
 
 10. IngredientesEmComum(Lista* lista)
+identifica quais componentes são compartilhados por mais de uma receita. Ela percorre a estrutura de frequência junto com a lista de receitas e suas listas de ingredientes. No momento da exibição, a função filtra apenas os nós da lista de frequência que possuem um contador superior a 1 e lista para o usuário. Se não ouver ingredientes com o numero superior a 1, informa ao usuário que não foram encontrados ingredientes repetidos entre os pratos cadastrados.
 
 11. liberarIngredientes(Receita* head)
+Como cada receita aloca seus ingredientes de forma dinâmica, a função recebe o ponteiro inicial da sublista e utiliza um laço de repetição para percorrer todos os nós. Um ponteiro auxiliar armazena o endereço do próximo elemento antes de o nó atual ser liberado com free, garantindo que nenhum endereço de memória seja perdido durante o processo de limpeza e evitando o vazamento de memória.
 
 12. removerReceita(Lista* lista, char* nome)
+localiza o nó alvo na lista principal comparando os nomes com strcmp. Ao encontrar o registro, a função chama obrigatoriamente a liberarIngredientes para limpar a sublista vinculada. Em seguida, reajusta os ponteiros dos nós vizinhos para que o anterior aponte para o sucessor e o sucessor aponte para o anterior. Se o nó for o início da lista, o ponteiro de controle é atualizado para o próximo elemento. Por fim, a memória do nó da receita é liberada.
 
 13. listarReceitas(Lista* lista)
 Inicialmente analisa se a lista está vazia, caso esteja retorna uma mensagem avisando o usuário, caso contrário vai para a segunda etapa.

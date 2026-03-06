@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/workspaces/ProjetoFInalAED",
-      "program": "/workspaces/ProjetoFInalAED/build/Debug/outDebug",
+      "cwd": "/workspaces/ProjetoFInalAED/code",
+      "program": "/workspaces/ProjetoFInalAED/code/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

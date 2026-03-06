@@ -50,7 +50,30 @@ Toda a lógica do projeto gira em torno da manipulação de duas listas principa
 ---
 
 ## 📖 Como utilizar
-O exemplo de uso detalhado e os testes de entrada estão disponíveis no arquivo **`TesteUso.txt`** no repositório principal.
+Abaixo, um exemplo do fluxo de interação com o sistema através do menu interativo:
+
+### 1. Cadastrando e Listando Receitas
+```shell
+Escolha uma opcao: 1
+Digite o nome do prato: ovo
+Digite o preço do prato: 20
+digite o numero de ingredientes: 2
+Digite o ingrediente 1: ovo
+Digite o ingrediente 2: oleo
+
+Escolha uma opcao: 3
+Nome: macarrao
+Preco: 50.00
+Ingredientes:
+ - macarrao
+ - oleo
+ - sal
+---
+Nome: ovo
+Preco: 20.00
+Ingredientes:
+ - ovo
+ - oleo
 
 ---
 

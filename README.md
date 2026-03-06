@@ -1,1 +1,61 @@
-🥗 Projeto: Receitas Culinárias SaudáveisEste projeto, desenvolvido como o Tema 4, propõe uma solução robusta para o gerenciamento de receitas saudáveis utilizando a linguagem C. A espinha dorsal da aplicação baseia-se na manipulação dinâmica de memória, utilizando listas duplamente ligadas e listas encadeadas simples para organizar receitas e seus respectivos ingredientes.📋 Status do ProjetoFuncionalidadeStatusCadastrar receita✅Remover receita✅Listar receitas✅Cadastrar ingredientes✅Contar ingredientes por receita✅Listar receitas por tipo❌Calcular valor calórico❌Cruzamento de dados (Ingredientes repetidos, etc)✅🏗️ Estrutura de DadosA lógica do sistema gira em torno de duas estruturas principais:Lista (No): Uma lista duplamente ligada que armazena nome, preço e uma sublista de ingredientes de cada receita.Receita (Lista simples): Uma lista encadeada simples que armazena os ingredientes de forma linear dentro de cada nó de receita.⚙️ Detalhamento das Funcionalidades🏠 Gestão de ReceitasCriarLista(): Inicializa a estrutura alocando memória para o nó principal.CadastrarReceita(): A função principal. Solicita dados, gerencia a memória dos ingredientes e insere o novo nó no início da lista.RemoverReceita(): Localiza o nó via strcmp, libera a memória da sublista de ingredientes e reajusta os ponteiros da lista principal.ListarReceitas(): Percorre a lista duplamente ligada, exibindo os dados de cada prato e seus ingredientes.🧪 Manipulação de IngredientesCadastrarIngredienteReceita(): Adiciona um ingrediente novo a uma receita já existente.ListarIngredientesReceita(): Realiza uma busca sequencial e imprime todos os itens da receita selecionada.LiberarIngredientes(): Percorre a sublista de ingredientes liberando a memória de cada nó para evitar vazamentos (memory leaks).📊 Análise e Cruzamento de DadosMenorPreço(): Complexidade $O(n)$. Itera a lista de receitas identificando o menor custo registrado.RegistrarIngrediente(): Núcleo da contagem de frequência. Utiliza ponteiro duplo (freq**) para mapear aparições de ingredientes em diferentes receitas.IngredienteMaisUsado(): Utiliza a estrutura de frequência para calcular e exibir o item com maior recorrência.IngredientesEmComum(): Filtra e lista ingredientes presentes em mais de uma receita.ListarReceitasPorIngrediente(): Busca cruzada para encontrar todas as receitas que utilizam um item específico.📖 Como utilizarConsulte o arquivo TesteUso.txt presente na raiz do repositório para ver exemplos práticos de execução.🧠 AprendizadosO desenvolvimento deste projeto consolidou o entendimento sobre:Estruturas Aninhadas: A técnica de "lista dentro de lista" foi fundamental para lidar com dados complexos.Gestão de Memória: O rigor necessário com malloc e free para evitar vazamentos em estruturas dinâmicas.Colaboração: O uso do GitHub facilitou o incremento modular do código, permitindo que cada integrante evoluísse partes específicas do sistema.
+# 🥗 Projeto: Receitas Culinárias Saudáveis
+
+Este projeto, desenvolvido como o **Tema 4**, propõe uma solução robusta para o gerenciamento de receitas saudáveis utilizando a linguagem C. A espinha dorsal da aplicação baseia-se na manipulação dinâmica de memória, utilizando listas duplamente ligadas e listas encadeadas simples.
+
+---
+
+## 📋 Status do Projeto
+
+| Funcionalidade | Status |
+| :--- | :---: |
+| Cadastrar receita | ✅ |
+| Remover receita | ✅ |
+| Listar receitas | ✅ |
+| Cadastrar ingredientes | ✅ |
+| Contar ingredientes por receita | ✅ |
+| Listar receitas por tipo | ❌ |
+| Calcular valor calórico | ❌ |
+| Cruzamento de dados (Ingredientes repetidos, etc) | ✅ |
+
+---
+
+## 🏗️ Estrutura de Dados
+Toda a lógica do projeto gira em torno da manipulação de duas listas principais:
+
+* **`Lista (No)`**: Uma lista duplamente ligada definida em `lista.h`, que armazena o nome, preço e a cabeça da sublista de ingredientes de cada receita.
+* **`Receita`**: Uma lista encadeada simples definida em `ingrediente.h`, que armazena os ingredientes de forma linear.
+
+---
+
+## ⚙️ Detalhamento das Funções
+
+### 🏠 Gestão de Receitas
+* **`CriarLista()`**: Aloca o ponteiro para a estrutura do nó principal após reservar a memória necessária.
+* **`CadastrarReceita()`**: A função mais complexa do sistema. Solicita nome, preço e número de ingredientes, gerencia o buffer de strings e insere o novo nó no início da lista principal.
+* **`RemoverReceita()`**: Localiza a receita via `strcmp`, chama obrigatoriamente a função de liberação de sublista e reajusta os ponteiros dos nós vizinhos.
+* **`ListarReceitas()`**: Percorre a lista duplamente ligada exibindo os dados formatados de cada prato.
+
+### 🧪 Manipulação de Ingredientes
+* **`CadastrarIngredienteReceita()`**: Adiciona novos itens a pratos já existentes, garantindo a alocação dinâmica com `strdup`.
+* **`ListarIngredientesReceita()`**: Realiza busca sequencial e imprime a lista simples de ingredientes até encontrar o valor nulo.
+* **`LiberarIngredientes()`**: Garante que nenhum endereço de memória seja perdido, limpando os nós da sublista recursivamente ou via laço.
+
+### 📊 Análise e Cruzamento de Dados
+* **`MenorPreço()`**: Complexidade $O(n)$. Identifica a receita mais barata (implementada como alternativa ao valor calórico).
+* **`RegistrarIngrediente()`**: Núcleo do sistema de frequência. Utiliza ponteiros duplos (`freq**`) para modificar diretamente a contagem de itens globais.
+* **`IngredienteMaisUsado()`**: Varre a lista de frequência temporária para identificar o item com maior contador.
+* **`IngredientesEmComum()`**: Identifica e filtra quais componentes são compartilhados por mais de uma receita (contador > 1).
+* **`ListarReceitasPorIngrediente()`**: Busca cruzada que retorna quais pratos cadastrados utilizam um ingrediente específico.
+
+---
+
+## 📖 Como utilizar
+O exemplo de uso detalhado e os testes de entrada estão disponíveis no arquivo **`TesteUso.txt`** no repositório principal.
+
+---
+
+## 🧠 Reflexão e Aprendizados
+O método de implementação de **"uma lista dentro da outra"** foi fundamental para o entendimento da lógica de cruzamento de dados e manipulação de memória dinâmica. O uso do **GitHub** como ferramenta de colaboração permitiu um desenvolvimento incremental e organizado, abrindo portas para algoritmos mais eficientes no futuro.
+
+---
+> **Nota:** Projeto desenvolvido para fins acadêmicos com foco em Estrutura de Dados.

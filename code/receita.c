@@ -1,8 +1,13 @@
 #include "receita.h"
 #include "ingredientes.h"
+#include "no.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+// ============================================
+// FUNÇÕES DO MENU
+// ============================================
 
 void exibirMenu() {
     printf("\n\n");
@@ -21,302 +26,393 @@ void exibirMenu() {
     printf("\n\n-----------------------------------------");
 }
 
+// ============================================
+// FUNÇÕES DE CRIAÇÃO E LIMPEZA
+// ============================================
+
 Lista* criarLista() {
     Lista* novaLista = (Lista*)malloc(sizeof(Lista));
     if (novaLista != NULL) {
         novaLista->inicio = NULL;
+        novaLista->fim = NULL;
         novaLista->tamanho = 0;
     }
     return novaLista;
 }
 
+void liberarLista(Lista* lista) {
+    if (lista == NULL) return;
+
+    No* atual = lista->inicio;
+    while (atual != NULL) {
+        No* temp = atual;
+        atual = atual->proximo;
+        liberarIngredientesInterno(&temp->ingredientes);
+        free(temp);
+    }
+    free(lista);
+}
+
+// ============================================
+// FUNÇÕES DE CADASTRO - COM I/O INTEGRADA
+// ============================================
+
 void cadastrarReceita(Lista* lista) {
     if (lista == NULL) return;
 
     No* novoNo = (No*)malloc(sizeof(No));
-    if (novoNo == NULL) return;
+    if (novoNo == NULL) {
+        printf("Erro ao alocar memória.\n");
+        return;
+    }
 
-    int escolha;
-
-    printf("\n Digite o nome do prato: ");
+    // I/O: Leitura de dados da receita
+    printf("\nDigite o nome do prato: ");
     fgets(novoNo->Nome, 100, stdin); 
-    novoNo->Nome[strcspn(novoNo->Nome, "\n")] = '\0'; // Sanitização para remover quebra de linha do buffer
+    novoNo->Nome[strcspn(novoNo->Nome, "\n")] = '\0';
 
-    printf("\n Digite o preco do prato: \n");
+    printf("Digite o preço do prato: ");
     scanf("%f", &novoNo->preco);
 
-    printf("\n Digite o numero de ingredientes: \n");
-    scanf("%d", &escolha);
+    printf("Digite o número de ingredientes: ");
+    int numIngredientes;
+    scanf("%d", &numIngredientes);
 
-    /* Limpeza do buffer do teclado necessária para que o próximo fgets 
-       não capture o '\n' deixado pelo scanf anterior. */
+    // Limpeza do buffer
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 
-    novoNo->ingredientes = NULL;
+    // Inicialização do descritor de ingredientes
+    novoNo->ingredientes.inicio = NULL;
+    novoNo->ingredientes.fim = NULL;
+    novoNo->ingredientes.tamanho = 0;
 
-    for (int i = 0; i < escolha; i++) {
+    // Loop interno: adicionar ingredientes (função interna)
+    for (int i = 0; i < numIngredientes; i++) {
         char buffer[100];
         printf("Digite o ingrediente %d: ", i + 1);
         fgets(buffer, sizeof(buffer), stdin);
         buffer[strcspn(buffer, "\n")] = '\0';
 
-        Receita* novoIng = (Receita*)malloc(sizeof(Receita));
-        if (novoIng == NULL) continue;
-        novoIng->ingrediente = strdup(buffer); // Alocação dinâmica da string para evitar ponteiros pendentes
-        novoIng->proxima = NULL;
-
-        // Inserção na cauda da lista de ingredientes (preserva a ordem de inserção)
-        if (novoNo->ingredientes == NULL) {
-            novoNo->ingredientes = novoIng;
-        } else {
-            Receita* p = novoNo->ingredientes;
-            while (p->proxima != NULL) {
-                p = p->proxima;
-            }
-            p->proxima = novoIng;
-        }
+        adicionarIngredienteInterno(&novoNo->ingredientes, buffer);
     }
 
-    // Inserção no início da lista duplamente encadeada das receitas
-    novoNo->proximo = lista->inicio;
+    // Inicialização dos ponteiros de ligação
+    novoNo->proximo = NULL;
     novoNo->anterior = NULL;
 
-    if (lista->inicio != NULL) {
-        lista->inicio->anterior = novoNo;
+    // Inserção na lista de receitas (loop externo)
+    if (lista->inicio == NULL) {
+        lista->inicio = novoNo;
+        lista->fim = novoNo;
+    } else {
+        lista->fim->proximo = novoNo;
+        novoNo->anterior = lista->fim;
+        lista->fim = novoNo;
     }
-    
-    lista->inicio = novoNo;
     lista->tamanho++;
+
+    printf("Receita '%s' cadastrada com sucesso!\n", novoNo->Nome);
 }
 
-void cadastrarIngredienteReceita(Lista* lista, char* nomePrato){
-    if(lista == NULL || lista->inicio == NULL) return;
-    No* atual = lista->inicio;
-    while(atual != NULL){
-        if(strcmp(atual->Nome, nomePrato) == 0){ //strcmp devolve 0 se as duas strings forem iguais
-            char buffer[100];
-            printf("\n Digite o novo ingrediente: ");
-            fgets(buffer, sizeof(buffer), stdin);
-            buffer[strcspn(buffer, "\n")] = '\0'; // elimina o \n
-            
-            Receita* novoIng = (Receita*)malloc(sizeof(Receita));
-            if(novoIng != NULL){
-                novoIng->ingrediente = strdup(buffer); //passa a string por alocação dinamica
-                novoIng->proxima = NULL;
-                
-                if(atual->ingredientes == NULL){ //se não tiver nenhum ingrediente adiciona no primeiro
-                    atual->ingredientes = novoIng;
-                }else{
-                    Receita* p = atual->ingredientes;
-                    while(p->proxima != NULL){ //se ja tiver ingrediente percorre até o ultimo.
-                        p = p->proxima;
-                    }
-                    p->proxima = novoIng;
-                }
-            }
-            break;
-        }
-        atual = atual->proximo; //passa para a proxima receita
+void removerReceita(Lista* lista) {
+    if (lista == NULL || lista->inicio == NULL) {
+        printf("Lista vazia.\n");
+        return;
     }
-}
 
-void listarIngredientesReceita(Lista* lista, char* nomePrato){
-    if(lista == NULL || lista->inicio == NULL) return;
+    // I/O: Ler nome da receita
+    char nome[100];
+    printf("Digite o nome da receita a remover: ");
+    fgets(nome, sizeof(nome), stdin);
+    nome[strcspn(nome, "\n")] = '\0';
+
+    // Loop externo: encontrar receita
     No* atual = lista->inicio;
-    while(atual != NULL){
-        if(strcmp(atual->Nome, nomePrato) == 0){
-            Receita* ingAtual = atual->ingredientes;
-            while(ingAtual != NULL){
-                printf("\n - %s\n", ingAtual->ingrediente);
-                ingAtual = ingAtual->proxima;
-            }
+    while (atual != NULL) {
+        if (strcmp(atual->Nome, nome) == 0) {
+            // Ajuste de encadeamento para exclusão em lista dupla
+            if (atual->anterior != NULL)
+                atual->anterior->proximo = atual->proximo;
+            else
+                lista->inicio = atual->proximo;
+
+            if (atual->proximo != NULL)
+                atual->proximo->anterior = atual->anterior;
+            else
+                lista->fim = atual->anterior;
+
+            // Libera ingredientes (loop interno)
+            liberarIngredientesInterno(&atual->ingredientes);
+
+            free(atual);
+            lista->tamanho--;
+            printf("Receita '%s' removida com sucesso.\n", nome);
             return;
         }
         atual = atual->proximo;
     }
+    printf("Receita '%s' não encontrada.\n", nome);
 }
 
-void MenorPreco(Lista* lista){
-    if(lista == NULL || lista->inicio == NULL) return;
+void cadastrarIngredienteReceita(Lista* lista) {
+    if (lista == NULL || lista->inicio == NULL) {
+        printf("Lista de receitas vazia.\n");
+        return;
+    }
+
+    // I/O: Ler nome da receita
+    char nomePrato[100];
+    printf("Digite o nome da receita: ");
+    fgets(nomePrato, sizeof(nomePrato), stdin);
+    nomePrato[strcspn(nomePrato, "\n")] = '\0';
+
+    // Loop externo: encontrar receita
+    No* atual = lista->inicio;
+    while (atual != NULL) {
+        if (strcmp(atual->Nome, nomePrato) == 0) {
+            // I/O: Ler nome do ingrediente
+            char buffer[100];
+            printf("Digite o novo ingrediente: ");
+            fgets(buffer, sizeof(buffer), stdin);
+            buffer[strcspn(buffer, "\n")] = '\0';
+
+            // Loop interno: adicionar ingrediente (função interna)
+            adicionarIngredienteInterno(&atual->ingredientes, buffer);
+            printf("Ingrediente adicionado com sucesso!\n");
+            return;
+        }
+        atual = atual->proximo;
+    }
+    printf("Receita '%s' não encontrada.\n", nomePrato);
+}
+
+// ============================================
+// FUNÇÕES DE LISTAGEM - COM I/O INTEGRADA
+// ============================================
+
+void listarReceitas(Lista* lista) {
+    if (lista == NULL || lista->inicio == NULL) {
+        printf("Nenhuma receita cadastrada.\n");
+        return;
+    }
+
+    // Loop externo: percorrer receitas
+    No* atual = lista->inicio;
+    while (atual != NULL) {
+        printf("\n--- Receita: %s ---\n", atual->Nome);
+        printf("Preço: R$ %.2f\n", atual->preco);
+        printf("Ingredientes:\n");
+        
+        // Loop interno: listar ingredientes (função interna)
+        listarIngredientesInterno(&atual->ingredientes);
+        
+        atual = atual->proximo;
+    }
+}
+
+void listarIngredientesReceita(Lista* lista) {
+    if (lista == NULL || lista->inicio == NULL) {
+        printf("Lista vazia.\n");
+        return;
+    }
+
+    // I/O: Ler nome da receita
+    char nomePrato[100];
+    printf("Digite o nome da receita: ");
+    fgets(nomePrato, sizeof(nomePrato), stdin);
+    nomePrato[strcspn(nomePrato, "\n")] = '\0';
+
+    // Loop externo: encontrar receita
+    No* atual = lista->inicio;
+    while (atual != NULL) {
+        if (strcmp(atual->Nome, nomePrato) == 0) {
+            printf("\nIngredientes de '%s':\n", nomePrato);
+            // Loop interno: listar ingredientes (função interna)
+            listarIngredientesInterno(&atual->ingredientes);
+            return;
+        }
+        atual = atual->proximo;
+    }
+    printf("Receita '%s' não encontrada.\n", nomePrato);
+}
+
+void listarReceitasPorIngrediente(Lista* lista) {
+    if (lista == NULL || lista->inicio == NULL) {
+        printf("Lista vazia.\n");
+        return;
+    }
+
+    // I/O: Ler nome do ingrediente
+    char ingrediente[100];
+    printf("Digite o ingrediente: ");
+    fgets(ingrediente, sizeof(ingrediente), stdin);
+    ingrediente[strcspn(ingrediente, "\n")] = '\0';
+
+    printf("\nReceitas com o ingrediente '%s':\n", ingrediente);
+    int found = 0;
+
+    // Loop externo: percorrer receitas
+    No* atual = lista->inicio;
+    while (atual != NULL) {
+        // Loop interno: procurar ingrediente na receita (função interna)
+        if (encontrarIngredienteInterno(&atual->ingredientes, ingrediente)) {
+            printf("  - %s (R$ %.2f)\n", atual->Nome, atual->preco);
+            found = 1;
+        }
+        atual = atual->proximo;
+    }
+
+    if (!found) {
+        printf("Nenhuma receita encontrada com o ingrediente '%s'.\n", ingrediente);
+    }
+}
+
+// ============================================
+// FUNÇÕES DE ANÁLISE - COM I/O INTEGRADA
+// ============================================
+
+void MenorPreco(Lista* lista) {
+    if (lista == NULL || lista->inicio == NULL) {
+        printf("Lista vazia.\n");
+        return;
+    }
+
+    // Loop externo: encontrar receita com menor preço
     No* atual = lista->inicio;
     No* menorPrato = atual;
     float menor = atual->preco;
-    while(atual != NULL){
-        if(atual->preco < menor){
+
+    while (atual != NULL) {
+        if (atual->preco < menor) {
             menor = atual->preco;
             menorPrato = atual;
         }
         atual = atual->proximo;
     }
-    printf("\n Nome: %s\nPreco: %.2f\n", menorPrato->Nome, menorPrato->preco);
+
+    printf("\n--- Prato com Menor Preço ---\n");
+    printf("Nome: %s\n", menorPrato->Nome);
+    printf("Preço: R$ %.2f\n", menorPrato->preco);
+    printf("Ingredientes:\n");
+    
+    // Loop interno: listar ingredientes (função interna)
+    listarIngredientesInterno(&menorPrato->ingredientes);
 }
 
-// Estrutura auxiliar para mapear a contagem de nomes únicos
-typedef struct Freq{
+// ============================================
+// ESTRUTURA AUXILIAR PARA CONTAGEM
+// ============================================
+
+typedef struct Freq {
     char nome[100];
     int contagem;
     struct Freq* proximo;
 } Freq;
 
-void registrarIngrediente(Freq** listaFreq, char* nomeIngrediente){
+void registrarIngrediente(Freq** listaFreq, char* nomeIngrediente) {
     Freq* atual = *listaFreq;
-    while(atual != NULL){
-        if(strcmp(atual->nome, nomeIngrediente) == 0){
+    while (atual != NULL) {
+        if (strcmp(atual->nome, nomeIngrediente) == 0) {
             atual->contagem++;
             return;
         }
         atual = atual->proximo;
     }
     Freq* novo = (Freq*)malloc(sizeof(Freq));
-    if(novo != NULL){
+    if (novo != NULL) {
         strcpy(novo->nome, nomeIngrediente);
         novo->contagem = 1;
-        novo->proximo = *listaFreq; // Inserção no início da lista de frequência por performance
+        novo->proximo = *listaFreq;
         *listaFreq = novo;
     }
 }
 
-void liberarFreq(Freq* listaFreq){
+void liberarFreq(Freq* listaFreq) {
     Freq* atual = listaFreq;
-    while(atual != NULL){
+    while (atual != NULL) {
         Freq* temp = atual;
         atual = atual->proximo;
         free(temp);
     }
 }
 
-void IngredienteMaisUsado(Lista* lista){
-    if(lista == NULL || lista->inicio == NULL) return;
+void IngredienteMaisUsado(Lista* lista) {
+    if (lista == NULL || lista->inicio == NULL) {
+        printf("Lista vazia.\n");
+        return;
+    }
+
     Freq* contagem = NULL;
+
+    // Loop externo: percorrer receitas
     No* pratoAtual = lista->inicio;
-    
-    // Varredura completa: N receitas * M ingredientes
-    while(pratoAtual != NULL){
-        Receita* ingAtual = pratoAtual->ingredientes;
-        while(ingAtual != NULL){
+    while (pratoAtual != NULL) {
+        // Loop interno: percorrer ingredientes de cada receita (função interna implícita)
+        NoIngrediente* ingAtual = pratoAtual->ingredientes.inicio;
+        while (ingAtual != NULL) {
             registrarIngrediente(&contagem, ingAtual->ingrediente);
             ingAtual = ingAtual->proxima;
         }
         pratoAtual = pratoAtual->proximo;
     }
-    
+
+    // Encontrar a maior frequência
     int maiorFreq = 0;
     Freq* fAtual = contagem;
-    while(fAtual != NULL){
-        if(fAtual->contagem > maiorFreq){
+    while (fAtual != NULL) {
+        if (fAtual->contagem > maiorFreq) {
             maiorFreq = fAtual->contagem;
         }
         fAtual = fAtual->proximo;
     }
-    
-    // Tratamento para empate: imprime todos os ingredientes com a frequência máxima encontrada
+
+    printf("\n--- Ingrediente(s) Mais Usado(s) ---\n");
+    printf("Frequência: %d\n", maiorFreq);
     fAtual = contagem;
-    while(fAtual != NULL){
-        if(fAtual->contagem == maiorFreq){
-            printf("\n - %s\n", fAtual->nome);
+    while (fAtual != NULL) {
+        if (fAtual->contagem == maiorFreq) {
+            printf("  - %s\n", fAtual->nome);
         }
         fAtual = fAtual->proximo;
     }
     liberarFreq(contagem);
 }
 
-void IngredientesEmComum(Lista* lista){
-    if(lista == NULL || lista->inicio == NULL) return;
+void IngredientesEmComum(Lista* lista) {
+    if (lista == NULL || lista->inicio == NULL) {
+        printf("Lista vazia.\n");
+        return;
+    }
+
     Freq* contagem = NULL;
+
+    // Loop externo: percorrer receitas
     No* pratoAtual = lista->inicio;
-    while(pratoAtual != NULL){
-        Receita* ingAtual = pratoAtual->ingredientes;
-        while(ingAtual != NULL){
+    while (pratoAtual != NULL) {
+        // Loop interno: percorrer ingredientes de cada receita
+        NoIngrediente* ingAtual = pratoAtual->ingredientes.inicio;
+        while (ingAtual != NULL) {
             registrarIngrediente(&contagem, ingAtual->ingrediente);
             ingAtual = ingAtual->proxima;
         }
         pratoAtual = pratoAtual->proximo;
     }
+
+    printf("\n--- Ingredientes Comuns (em mais de uma receita) ---\n");
+    int found = 0;
     Freq* fAtual = contagem;
-    while(fAtual != NULL){
-        if(fAtual->contagem > 1){
-            printf("\n - %s\n", fAtual->nome);
+    while (fAtual != NULL) {
+        if (fAtual->contagem > 1) {
+            printf("  - %s (em %d receitas)\n", fAtual->nome, fAtual->contagem);
+            found = 1;
         }
         fAtual = fAtual->proximo;
     }
+
+    if (!found) {
+        printf("Nenhum ingrediente em comum entre as receitas.\n");
+    }
+
     liberarFreq(contagem);
-}
-
-void liberarIngredientes(Receita* head){
-    Receita* atual = head;
-    while(atual != NULL){
-        Receita* temp = atual;
-        atual = atual->proxima;
-        free(temp->ingrediente); // Importante: liberar string alocada por strdup antes da struct
-        free(temp);
-    }
-}
-
-void removerReceita(Lista* lista, char* nome){
-    if(lista == NULL || lista->inicio == NULL) return;
-    No* atual = lista->inicio;
-    while(atual != NULL){
-        if(strcmp(atual->Nome, nome) == 0){
-            // Ajuste de encadeamento para exclusão em lista dupla
-            if(atual->anterior != NULL)
-                atual->anterior->proximo = atual->proximo;
-            else
-                lista->inicio = atual->proximo;
-
-            if(atual->proximo != NULL)
-                atual->proximo->anterior = atual->anterior;
-
-            if(atual->ingredientes != NULL)
-                liberarIngredientes(atual->ingredientes);
-
-            free(atual);
-            lista->tamanho--;
-            printf("\n Receita '%s' removida.\n", nome);
-            return;
-        }
-        atual = atual->proximo;
-    }
-    printf("\n Receita '%s' nao encontrada.\n", nome);
-}
-
-void listarReceitas(Lista* lista){
-    if(lista == NULL || lista->inicio == NULL){
-        printf("\n Nenhuma receita cadastrada.\n");
-        return;
-    }
-    No* atual = lista->inicio;
-    while(atual != NULL){
-        printf("\n Nome: %s\n", atual->Nome);
-        printf("Preco: %.2f\n", atual->preco);
-        printf("Ingredientes:\n");
-        Receita* ing = atual->ingredientes;
-        while(ing != NULL){
-            printf(" - %s\n", ing->ingrediente);
-            ing = ing->proxima;
-        }
-        printf("---\n");
-        atual = atual->proximo;
-    }
-}
-
-void listarReceitasPorIngrediente(Lista* lista, char* ingrediente){
-    if(lista == NULL || lista->inicio == NULL) return;
-    No* atual = lista->inicio;
-    int found = 0;
-    while(atual != NULL){
-        Receita* ing = atual->ingredientes;
-        while(ing != NULL){
-            if(strcmp(ing->ingrediente, ingrediente) == 0){
-                printf("%s (%.2f)\n", atual->Nome, atual->preco);
-                found = 1;
-                break; // Otimização: interrompe a busca na sublista de ingredientes se já encontrou o alvo
-            }
-            ing = ing->proxima;
-        }
-        atual = atual->proximo;
-    }
-    if(!found){
-        printf("Nenhuma receita encontrada com o ingrediente '%s'.\n", ingrediente);
-    }
 }

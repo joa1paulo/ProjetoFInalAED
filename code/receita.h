@@ -1,37 +1,31 @@
 #ifndef RECEITA_H
 #define RECEITA_H
-#include "ingredientes.h"
 
-typedef struct No {
-    char Nome[100];         
-    Receita *ingredientes;  
-    float preco;
-    struct No* proximo;
-    struct No* anterior;
-} No;
+#include "no.h"
 
-typedef struct {
-    No* inicio;
-    int tamanho;
-} Lista;
+// Tipo abstrato opaco - definido em no.h, mas não exposto ao main
+// Apenas o typedef do no.h é usado
 
+// Funções de menu
 void exibirMenu();
-Lista* criarLista();     
-void cadastrarReceita(Lista* lista);
-/*/
-a função cadastrarReceita recebe somente a lista, pois o usuário informará
-o nome do prato e os ingredientes,assim como o preço do prato a função irá criar um novo 
-nó com essas informações e adicioná-lo à lista.
-/*/
 
-void removerReceita(Lista* lista, char* nome);
+// Funções de gerenciamento de receitas (com I/O integrada)
+Lista* criarLista();
+void cadastrarReceita(Lista* lista);
+void removerReceita(Lista* lista);
 void listarReceitas(Lista* lista);
-void listarReceitasPorIngrediente(Lista* lista, char* ingrediente);
-void cadastrarIngredienteReceita(Lista* lista, char* nomePrato);
-void listarIngredientesReceita(Lista* lista, char* nomePrato);
+
+// Funções de gerenciamento de ingredientes
+void cadastrarIngredienteReceita(Lista* lista);
+void listarIngredientesReceita(Lista* lista);
+void listarReceitasPorIngrediente(Lista* lista);
+
+// Funções de análise
 void MenorPreco(Lista* lista);
 void IngredienteMaisUsado(Lista* lista);
 void IngredientesEmComum(Lista* lista);
 
+// Função de limpeza
+void liberarLista(Lista* lista);
 
 #endif

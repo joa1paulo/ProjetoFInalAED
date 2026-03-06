@@ -1,63 +1,55 @@
 #include "receita.h"
 #include <stdio.h>
-#include <string.h>
 
 int main(){
     Lista* lista = criarLista();
     int opcao = 0;
-    char buffer[100];
+    
     while(opcao != 10){
         exibirMenu();
         printf("\nEscolha uma opcao: ");
         scanf("%d", &opcao);
+        
+        // Limpar o buffer de entrada após scanf
         int c;
-        while((c = getchar()) != '\n' && c != EOF);// limpar o buffer de entrada após scanf
+        while((c = getchar()) != '\n' && c != EOF);
+        
         switch(opcao){
             case 1:
                 cadastrarReceita(lista);
                 break;
-            case 2:  // Função para remover receita 
-                printf("Digite o nome da receita a remover: ");
-                fgets(buffer, sizeof(buffer), stdin);
-                buffer[strcspn(buffer, "\n")] = '\0';
-                removerReceita(lista, buffer);
+            case 2:
+                removerReceita(lista);
                 break;
-            case 3: // Função para listar receitas 
+            case 3:
                 listarReceitas(lista);
                 break;
-            case 4:// Função para cadastrar ingrediente em uma receita 
-                printf("Digite o nome da receita: ");
-                fgets(buffer, sizeof(buffer), stdin);
-                buffer[strcspn(buffer, "\n")] = '\0';
-                cadastrarIngredienteReceita(lista, buffer);
+            case 4:
+                cadastrarIngredienteReceita(lista);
                 break;
-            case 5:// Função para listar ingredientes de uma receita 
-                printf("Digite o nome da receita: ");
-                fgets(buffer, sizeof(buffer), stdin);
-                buffer[strcspn(buffer, "\n")] = '\0';
-                listarIngredientesReceita(lista, buffer);
+            case 5:
+                listarIngredientesReceita(lista);
                 break;
-            case 6:// Função para listar receitas por ingrediente 
-                printf("Digite o ingrediente: ");
-                fgets(buffer, sizeof(buffer), stdin);
-                buffer[strcspn(buffer, "\n")] = '\0';
-                listarReceitasPorIngrediente(lista, buffer);
+            case 6:
+                listarReceitasPorIngrediente(lista);
                 break;
-            case 7:// Função para encontrar o prato com menor preço
+            case 7:
                 MenorPreco(lista);
                 break;
-            case 8:// Função para encontrar o ingrediente mais usado
+            case 8:
                 IngredienteMaisUsado(lista);
                 break;
-            case 9:// Função para encontrar ingredientes em comum entre receitas
+            case 9:
                 IngredientesEmComum(lista);
                 break;
-            case 10:// saída do loop
+            case 10:
                 printf("Saindo...\n");
                 break;
             default:
                 printf("Opcao invalida. Tente novamente.\n");
         }
     }
+    
+    liberarLista(lista);
     return 0;
 }

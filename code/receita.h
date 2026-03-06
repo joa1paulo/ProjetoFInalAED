@@ -1,5 +1,5 @@
-#ifndef LISTA_H
-#define LISTA_H
+#ifndef RECEITA_H
+#define RECEITA_H
 #include "ingredientes.h"
 
 typedef struct No {

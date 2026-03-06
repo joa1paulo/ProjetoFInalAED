@@ -1,4 +1,4 @@
-#include "lista.h"
+#include "receita.h"
 #include "ingredientes.h"
 #include <stdlib.h>
 #include <stdio.h>

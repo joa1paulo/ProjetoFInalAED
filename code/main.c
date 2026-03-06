@@ -1,4 +1,4 @@
-#include "lista.h"
+#include "receita.h"
 #include <stdio.h>
 #include <string.h>
 
